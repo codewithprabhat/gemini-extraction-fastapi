@@ -1,0 +1,17 @@
+export const appColors = {
+  gold: '#C9A84C',
+  goldLight: '#E8C97A',
+  goldDim: '#8A6D2F',
+  bgVoid: '#080808',
+  bgDeep: '#0D0D0F',
+  bgElevated: '#18181C',
+  bgSurface: '#1E1E24',
+  textPrimary: '#F4F4F5',
+  textSecondary: '#A1A1AA',
+  textMuted: '#52525B',
+  border: 'rgba(201,168,76,0.15)',
+  borderBright: 'rgba(201,168,76,0.45)',
+  accentTeal: '#1DB88A',
+  accentBlue: '#3B7DD8',
+  accentRuby: '#C0392B',
+} as const;

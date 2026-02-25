@@ -1,0 +1,51 @@
+# OS/editor artifacts
+.DS_Store
+.idea/
+.vscode/
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+frontend/.env.*
+DEPLOYMENT.md
+
+# Python (backend)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.venv/
+venv/
+env/
+backend/.venv/
+
+# Node/frontend
+frontend/node_modules/
+frontend/build/
+frontend/coverage/
+frontend/.pnp
+frontend/.pnp.js
+frontend/.eslintcache
+frontend/.cache/
+
+# Logs and runtime files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Misc build/temp outputs
+dist/
+tmp/
+temp/
