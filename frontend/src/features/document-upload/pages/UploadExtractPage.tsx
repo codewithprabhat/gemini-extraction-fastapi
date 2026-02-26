@@ -192,7 +192,7 @@ function UploadExtractPage() {
 
   return (
     <Box sx={{ pb: 4 }}>
-      <UploadHeader documentName={selectedDocument.name} />
+      <UploadHeader documentName={selectedDocument.name} documentId={selectedDocument.id} />
       <StepIndicator currentStep={2} />
 
       <Box

@@ -37,7 +37,7 @@ function UploadBottomActions({
       >
         Copy
       </Button>
-      <Button
+      {/* <Button
         disabled={disabled}
         sx={{
           textTransform: 'none',
@@ -47,7 +47,7 @@ function UploadBottomActions({
         }}
       >
         Send to Webhook
-      </Button>
+      </Button> */}
     </Stack>
   );
 }
