@@ -2,13 +2,14 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.core.config import settings
 from app.schemas.response_models import CostDetails, ExtractedDocument, ProcessingResponse, UsageDetails
+from app.services.llm_extraction.form_5498_sa_extractor import extract_5498_sa_details
 from app.services.llm_extraction.form_1099_sa_extractor import extract_1099_sa_details
 from app.services.llm_extraction.w2_extractor import extract_w2_details
 from app.utils.file_validation import validate_uniform_family
 from app.utils.gemini_api_client import GeminiUsage
 
 router = APIRouter()
-SUPPORTED_TYPES = {"w2-form", "1099-sa"}
+SUPPORTED_TYPES = {"w2-form", "1099-sa", "5498-sa"}
 
 
 def _normalize_form_type(raw_type: str) -> str:
@@ -81,7 +82,7 @@ async def w2_extract_endpoint(
     if normalized_type not in SUPPORTED_TYPES:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid 'type'. Supported values are: w2-form, 1099-sa.",
+            detail="Invalid 'type'. Supported values are: w2-form, 1099-sa, 5498-sa.",
         )
     if not files:
         raise HTTPException(
@@ -108,6 +109,8 @@ async def w2_extract_endpoint(
 
             if normalized_type == "w2-form":
                 extracted, usage = await extract_w2_details(file_bytes=file_bytes, mime_type=mime_type)
+            elif normalized_type == "5498-sa":
+                extracted, usage = await extract_5498_sa_details(file_bytes=file_bytes, mime_type=mime_type)
             else:
                 extracted, usage = await extract_1099_sa_details(file_bytes=file_bytes, mime_type=mime_type)
             usage_list.append(usage)

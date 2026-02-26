@@ -40,7 +40,7 @@ function DocumentGrid({ documents, selectedDocumentName, onSelect }: DocumentGri
           mb: 2,
         }}
       >
-        W-2 and 1099-SA are available now. More document types are coming soon as implementation is in progress.
+        W-2, 1099-SA, and 5498-SA are available now. More document types are coming soon as implementation is in progress.
       </Typography>
 
       <Box

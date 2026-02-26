@@ -21,6 +21,15 @@ export const documentTypes: DocumentType[] = [
     disabled: false,
   },
   {
+    id: '5498-sa',
+    name: '5498-SA',
+    description: 'HSA / MSA Contributions',
+    tooltip: 'Health Savings Account contributions',
+    category: 'other',
+    icon: 'health',
+    disabled: false,
+  },
+  {
     id: '1099-nec',
     name: '1099-NEC',
     description: 'Non-Employee Compensation',

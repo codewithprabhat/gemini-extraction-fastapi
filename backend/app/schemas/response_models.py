@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
+from app.schemas.form_5498_sa_details import Form5498SADetails
 from app.schemas.form_1099_sa_details import Form1099SADetails
 from app.schemas.w2_details import W2Details
 
@@ -23,7 +24,7 @@ class ExtractedDocument(BaseModel):
     filename: str
     mime_type: str
     processing_status: str
-    extracted_data: Optional[W2Details | Form1099SADetails] = Field(default=None)
+    extracted_data: Optional[W2Details | Form1099SADetails | Form5498SADetails] = Field(default=None)
     error_message: Optional[str] = Field(default=None)
     usage: UsageDetails = Field(default_factory=UsageDetails)
     cost: CostDetails = Field(default_factory=CostDetails)
