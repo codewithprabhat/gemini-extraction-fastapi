@@ -55,3 +55,21 @@ async def generate_content_with_retries(
     parsed_data = response_schema.model_validate_json(response.text)
     usage = _extract_usage(response)
     return parsed_data, usage
+
+
+@async_retry_with_exponential_backoff
+async def generate_text_with_retries(
+    model_name: str,
+    contents: List[types.Part | str],
+) -> tuple[str, GeminiUsage]:
+    response = await asyncio.to_thread(
+        _gemini_client.models.generate_content,
+        model=model_name,
+        contents=contents,
+    )
+
+    if not response.text:
+        raise ValueError("Gemini API returned empty response text.")
+
+    usage = _extract_usage(response)
+    return response.text, usage

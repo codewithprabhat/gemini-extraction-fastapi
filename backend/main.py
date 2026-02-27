@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.endpoints import w2_extraction
+from app.api.endpoints import process_text_return, w2_extraction
 from app.core.config import settings
 
 load_dotenv()
@@ -31,6 +31,7 @@ app.add_middleware(
 )
 
 app.include_router(w2_extraction.router, prefix="/documents", tags=["document"])
+app.include_router(process_text_return.router, prefix="/documents", tags=["document"])
 
 
 if __name__ == "__main__":

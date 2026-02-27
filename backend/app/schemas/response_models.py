@@ -35,3 +35,13 @@ class ProcessingResponse(BaseModel):
     processed_documents: List[ExtractedDocument]
     request_usage: UsageDetails = Field(default_factory=UsageDetails)
     request_cost: CostDetails = Field(default_factory=CostDetails)
+
+
+class ProcessTextReturnResponse(BaseModel):
+    type: str
+    prompt: str
+    model: str
+    processing_status: str
+    result_text: Optional[str] = Field(default=None)
+    usage: UsageDetails = Field(default_factory=UsageDetails)
+    error_message: Optional[str] = Field(default=None)
