@@ -16,6 +16,7 @@ const DOCUMENT_TYPE_TO_API_TYPE: Record<string, string> = {
   w2: 'w2-form',
   '1099-sa': '1099-sa',
   '5498-sa': '5498-sa',
+  '5498': '5498',
 };
 const INPUT_COST_PER_MILLION_USD = 0.3;
 const OUTPUT_COST_PER_MILLION_USD = 2.5;
@@ -105,7 +106,7 @@ function UploadExtractPage() {
       setResultJson(null);
       setFiles((previous) => previous.map((item) => ({ ...item, status: 'error' })));
       setErrorMessage(
-        `${selectedDocument.name} extraction is not supported yet. Please select W-2, 1099-SA, or 5498-SA.`
+        `${selectedDocument.name} extraction is not supported yet. Please select W-2, 1099-SA, 5498-SA, or 5498.`
       );
       return;
     }

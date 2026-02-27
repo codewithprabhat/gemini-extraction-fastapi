@@ -30,6 +30,15 @@ export const documentTypes: DocumentType[] = [
     disabled: false,
   },
   {
+    id: '5498',
+    name: '5498',
+    description: 'IRA Contributions Information',
+    tooltip: 'Traditional/Roth/SEP/SIMPLE IRA contributions',
+    category: 'other',
+    icon: 'health',
+    disabled: false,
+  },
+  {
     id: '1099-nec',
     name: '1099-NEC',
     description: 'Non-Employee Compensation',

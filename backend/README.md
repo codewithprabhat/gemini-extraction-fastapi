@@ -3,7 +3,10 @@
 FastAPI service for extracting structured W-2 data from uploaded files using Gemini.
 
 ## Supported Input
-- `type` must be `w2-form`
+- `type` must be one of:
+  - `w2-form`
+  - `5498`
+  - `ssa-1099`
 - `files` as multipart upload (single or multiple)
 - Allowed:
   - PDFs only (one or many), or
@@ -29,14 +32,14 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ## API
-### POST `/documents/w2-extract`
+### POST `/documents/extract`
 `multipart/form-data`:
-- `type`: `w2-form`
+- `type`: `w2-form` | `5498` | `ssa-1099`
 - `files`: one or many files
 
 Example:
 ```bash
-curl --location 'http://127.0.0.1:8000/documents/w2-extract' \
+curl --location 'http://127.0.0.1:8000/documents/extract' \
   --form 'type=w2-form' \
   --form 'files=@/absolute/path/to/file1.pdf' \
   --form 'files=@/absolute/path/to/file2.pdf'
