@@ -39,6 +39,15 @@ export const documentTypes: DocumentType[] = [
     disabled: false,
   },
   {
+    id: 'ssa-1099',
+    name: 'SSA-1099',
+    description: 'Social Security Benefit Statement',
+    tooltip: 'Annual Social Security benefits and tax withholding details',
+    category: 'income',
+    icon: 'document',
+    disabled: false,
+  },
+  {
     id: '1099-nec',
     name: '1099-NEC',
     description: 'Non-Employee Compensation',

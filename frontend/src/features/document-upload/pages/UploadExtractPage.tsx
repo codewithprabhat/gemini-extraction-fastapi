@@ -17,6 +17,7 @@ const DOCUMENT_TYPE_TO_API_TYPE: Record<string, string> = {
   '1099-sa': '1099-sa',
   '5498-sa': '5498-sa',
   '5498': '5498',
+  'ssa-1099': 'ssa-1099',
 };
 const INPUT_COST_PER_MILLION_USD = 0.3;
 const OUTPUT_COST_PER_MILLION_USD = 2.5;
