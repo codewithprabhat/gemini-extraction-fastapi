@@ -1,13 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { appColors } from '../../theme/tokens';
-
-const navItems = [
-  { label: 'Extract', to: '/extract/select-document' },
-  { label: 'History', to: '/extract/upload' },
-  { label: 'API Docs', to: '/extract/upload' },
-  { label: 'Settings', to: '/extract/select-document' },
-];
 
 function AppShell() {
   return (

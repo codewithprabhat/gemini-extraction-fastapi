@@ -56,6 +56,7 @@ function SelectDocumentPage() {
         onSearchQueryChange={setSearchQuery}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
+        onAnalyzeTaxReturnClick={() => navigate('/extract/tax-return-analyzer')}
       />
       <DocumentGrid
         documents={filteredDocuments}

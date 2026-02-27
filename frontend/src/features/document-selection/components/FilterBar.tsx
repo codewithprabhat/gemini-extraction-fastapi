@@ -7,6 +7,7 @@ interface FilterBarProps {
   onSearchQueryChange: (value: string) => void;
   activeCategory: FilterCategory;
   onCategoryChange: (value: FilterCategory) => void;
+  onAnalyzeTaxReturnClick?: () => void;
 }
 
 function FilterBar({
@@ -14,6 +15,7 @@ function FilterBar({
   onSearchQueryChange,
   activeCategory,
   onCategoryChange,
+  onAnalyzeTaxReturnClick,
 }: FilterBarProps) {
   return (
     <Stack
@@ -23,42 +25,63 @@ function FilterBar({
       spacing={2}
       sx={{ mb: 3.5 }}
     >
-      <TextField
-        value={searchQuery}
-        onChange={(event) => onSearchQueryChange(event.target.value)}
-        placeholder="Search document types..."
-        size="small"
-        sx={{
-          width: '100%',
-          maxWidth: 340,
-          '& .MuiOutlinedInput-root': {
-            bgcolor: appColors.bgElevated,
-            color: appColors.textPrimary,
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.2} sx={{ width: '100%', maxWidth: { xs: '100%', md: 560 } }}>
+        <TextField
+          value={searchQuery}
+          onChange={(event) => onSearchQueryChange(event.target.value)}
+          placeholder="Search document types..."
+          size="small"
+          sx={{
+            width: '100%',
+            maxWidth: 340,
+            '& .MuiOutlinedInput-root': {
+              bgcolor: appColors.bgElevated,
+              color: appColors.textPrimary,
+              borderRadius: 2,
+              '& fieldset': { borderColor: 'rgba(255,255,255,0.07)' },
+              '&:hover fieldset': { borderColor: appColors.borderBright },
+              '&.Mui-focused fieldset': { borderColor: appColors.borderBright },
+            },
+            '& input::placeholder': {
+              color: appColors.textMuted,
+              opacity: 1,
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Box
+                  component="svg"
+                  viewBox="0 0 24 24"
+                  sx={{ width: 18, height: 18, stroke: appColors.textMuted, fill: 'none', strokeWidth: 2 }}
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </Box>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box
+          component="button"
+          type="button"
+          onClick={onAnalyzeTaxReturnClick}
+          sx={{
+            border: `1px solid ${appColors.borderBright}`,
+            bgcolor: 'rgba(201,168,76,0.08)',
+            color: appColors.gold,
+            px: 1.6,
             borderRadius: 2,
-            '& fieldset': { borderColor: 'rgba(255,255,255,0.07)' },
-            '&:hover fieldset': { borderColor: appColors.borderBright },
-            '&.Mui-focused fieldset': { borderColor: appColors.borderBright },
-          },
-          '& input::placeholder': {
-            color: appColors.textMuted,
-            opacity: 1,
-          },
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Box
-                component="svg"
-                viewBox="0 0 24 24"
-                sx={{ width: 18, height: 18, stroke: appColors.textMuted, fill: 'none', strokeWidth: 2 }}
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </Box>
-            </InputAdornment>
-          ),
-        }}
-      />
+            fontSize: 12,
+            minHeight: 40,
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            '&:hover': { bgcolor: 'rgba(201,168,76,0.15)' },
+          }}
+        >
+          Analyse Tax Return
+        </Box>
+      </Stack>
 
       <Box
         sx={{
