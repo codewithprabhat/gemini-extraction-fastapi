@@ -8,6 +8,7 @@ FastAPI service for extracting structured W-2 data from uploaded files using Gem
   - `5498`
   - `ssa-1099`
   - `1099-g`
+  - `consolidated-brokerage-statement`
 - `files` as multipart upload (single or multiple)
 - Allowed:
   - PDFs only (one or many), or
@@ -26,6 +27,13 @@ cp .env.example .env
 
 Set `GOOGLE_API_KEY` in `.env`.
 
+Model routing config:
+- `GEMINI_MODEL_EXTRACTION` sets the default extraction model (default: `gemini-2.5-flash`).
+- `GEMINI_MODEL_EXTRACTION_COMPLEX` sets the model for configured complex types (default: `gemini-3-flash-preview`).
+- `GEMINI_COMPLEX_EXTRACTION_TYPES` is a comma-separated list of `type` values that should use the complex model.
+  - Example: `GEMINI_COMPLEX_EXTRACTION_TYPES=consolidated-brokerage-statement,ssa-1099`
+  - Types not listed use `GEMINI_MODEL_EXTRACTION`.
+
 ## Run
 ```bash
 cd backend
@@ -35,7 +43,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ## API
 ### POST `/documents/extract`
 `multipart/form-data`:
-- `type`: `w2-form` | `5498` | `ssa-1099` | `1099-g`
+- `type`: `w2-form` | `5498` | `ssa-1099` | `1099-g` | `consolidated-brokerage-statement`
 - `files`: one or many files
 
 Example:

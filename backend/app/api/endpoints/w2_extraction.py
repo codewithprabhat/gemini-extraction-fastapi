@@ -2,6 +2,9 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.core.config import settings
 from app.schemas.response_models import CostDetails, ExtractedDocument, ProcessingResponse, UsageDetails
+from app.services.llm_extraction.consolidated_brokerage_statement_extractor import (
+    extract_consolidated_brokerage_statement_details,
+)
 from app.services.llm_extraction.form_1099_g_extractor import extract_1099_g_details
 from app.services.llm_extraction.form_5498_extractor import extract_5498_details
 from app.services.llm_extraction.form_ssa_1099_extractor import extract_ssa_1099_details
@@ -10,12 +13,24 @@ from app.utils.file_validation import validate_uniform_family
 from app.utils.gemini_api_client import GeminiUsage
 
 router = APIRouter()
-SUPPORTED_TYPES = {"w2-form", "5498", "ssa-1099", "1099-g"}
+SUPPORTED_TYPES = {
+    "w2-form",
+    "5498",
+    "ssa-1099",
+    "1099-g",
+    "consolidated-brokerage-statement",
+}
 
 
 def _normalize_form_type(raw_type: str) -> str:
     # Accept common client-side formatting like extra whitespace or wrapping quotes.
     return raw_type.strip().strip("\"'").lower()
+
+
+def _resolve_extraction_model(form_type: str) -> str:
+    if form_type in settings.gemini_complex_extraction_types:
+        return settings.GEMINI_MODEL_EXTRACTION_COMPLEX
+    return settings.GEMINI_MODEL_EXTRACTION
 
 
 def _usage_to_model(usage: GeminiUsage) -> UsageDetails:
@@ -78,11 +93,15 @@ async def w2_extract_endpoint(
     files: list[UploadFile] = File(...),
 ) -> ProcessingResponse:
     normalized_type = _normalize_form_type(type)
+    extraction_model_name = _resolve_extraction_model(normalized_type)
 
     if normalized_type not in SUPPORTED_TYPES:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid 'type'. Supported values are: w2-form, 5498, ssa-1099, 1099-g.",
+            detail=(
+                "Invalid 'type'. Supported values are: "
+                "w2-form, 5498, ssa-1099, 1099-g, consolidated-brokerage-statement."
+            ),
         )
     if not files:
         raise HTTPException(
@@ -108,13 +127,35 @@ async def w2_extract_endpoint(
                 raise ValueError("Uploaded file is empty.")
 
             if normalized_type == "w2-form":
-                extracted, usage = await extract_w2_details(file_bytes=file_bytes, mime_type=mime_type)
+                extracted, usage = await extract_w2_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
             elif normalized_type == "5498":
-                extracted, usage = await extract_5498_details(file_bytes=file_bytes, mime_type=mime_type)
+                extracted, usage = await extract_5498_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
             elif normalized_type == "1099-g":
-                extracted, usage = await extract_1099_g_details(file_bytes=file_bytes, mime_type=mime_type)
+                extracted, usage = await extract_1099_g_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
+            elif normalized_type == "consolidated-brokerage-statement":
+                extracted, usage = await extract_consolidated_brokerage_statement_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
             else:
-                extracted, usage = await extract_ssa_1099_details(file_bytes=file_bytes, mime_type=mime_type)
+                extracted, usage = await extract_ssa_1099_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
             usage_list.append(usage)
             processed_documents.append(
                 ExtractedDocument(

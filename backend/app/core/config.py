@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str
 
     GEMINI_MODEL_EXTRACTION: str = "gemini-2.5-flash"
+    GEMINI_MODEL_EXTRACTION_COMPLEX: str = "gemini-3-flash-preview"
+    GEMINI_COMPLEX_EXTRACTION_TYPES: str = ""
     MAX_RETRIES: int = 7
     INITIAL_RETRY_DELAY: float = 1.0
     MAX_RETRY_DELAY: float = 120.0
@@ -33,6 +35,14 @@ class Settings(BaseSettings):
         # Keep localhost defaults for development and append optional production origins.
         extra_origins = [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
         return [*self.DEFAULT_ALLOWED_ORIGINS, *extra_origins]
+
+    @property
+    def gemini_complex_extraction_types(self) -> set[str]:
+        return {
+            form_type.strip().strip("\"'").lower()
+            for form_type in self.GEMINI_COMPLEX_EXTRACTION_TYPES.split(",")
+            if form_type.strip()
+        }
 
 
 settings = Settings()

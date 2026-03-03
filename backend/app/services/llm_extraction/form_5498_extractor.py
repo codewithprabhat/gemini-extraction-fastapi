@@ -1,18 +1,21 @@
 from google.genai import types
 
-from app.core.config import settings
 from app.prompts.form_5498_prompts import FORM_5498_EXTRACTION_PROMPT
 from app.schemas.form_5498_details import Form5498Details
 from app.utils.gemini_api_client import GeminiUsage, generate_content_with_retries
 
 
-async def extract_5498_details(file_bytes: bytes, mime_type: str) -> tuple[Form5498Details, GeminiUsage]:
+async def extract_5498_details(
+    file_bytes: bytes,
+    mime_type: str,
+    model_name: str,
+) -> tuple[Form5498Details, GeminiUsage]:
     contents = [
         types.Part.from_bytes(data=file_bytes, mime_type=mime_type),
         FORM_5498_EXTRACTION_PROMPT,
     ]
     return await generate_content_with_retries(
-        model_name=settings.GEMINI_MODEL_EXTRACTION,
+        model_name=model_name,
         contents=contents,
         response_schema=Form5498Details,
     )
