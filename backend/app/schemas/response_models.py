@@ -6,6 +6,7 @@ from app.schemas.consolidated_brokerage_statement_details import ConsolidatedBro
 from app.schemas.form_1095_a_details import Form1095ADetails
 from app.schemas.form_1099_g_details import Form1099GDetails
 from app.schemas.form_1099_r_details import Form1099RDetails
+from app.schemas.form_1098_t_details import Form1098TDetails
 from app.schemas.form_5498_details import Form5498Details
 from app.schemas.form_ssa_1099_details import FormSSA1099Details
 from app.schemas.w2_details import W2Details
@@ -32,6 +33,7 @@ class ExtractedDocument(BaseModel):
         W2Details
         | Form5498Details
         | Form1095ADetails
+        | Form1098TDetails
         | FormSSA1099Details
         | Form1099GDetails
         | Form1099RDetails
