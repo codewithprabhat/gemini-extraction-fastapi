@@ -3,6 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 from app.schemas.consolidated_brokerage_statement_details import ConsolidatedBrokerageStatementDetails
+from app.schemas.form_1095_a_details import Form1095ADetails
 from app.schemas.form_1099_g_details import Form1099GDetails
 from app.schemas.form_1099_r_details import Form1099RDetails
 from app.schemas.form_5498_details import Form5498Details
@@ -30,6 +31,7 @@ class ExtractedDocument(BaseModel):
     extracted_data: Optional[
         W2Details
         | Form5498Details
+        | Form1095ADetails
         | FormSSA1099Details
         | Form1099GDetails
         | Form1099RDetails

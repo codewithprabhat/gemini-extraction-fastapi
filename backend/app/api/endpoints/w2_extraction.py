@@ -5,6 +5,7 @@ from app.schemas.response_models import CostDetails, ExtractedDocument, Processi
 from app.services.llm_extraction.consolidated_brokerage_statement_extractor import (
     extract_consolidated_brokerage_statement_details,
 )
+from app.services.llm_extraction.form_1095_a_extractor import extract_1095_a_details
 from app.services.llm_extraction.form_1099_g_extractor import extract_1099_g_details
 from app.services.llm_extraction.form_1099_r_extractor import extract_1099_r_details
 from app.services.llm_extraction.form_5498_extractor import extract_5498_details
@@ -17,6 +18,7 @@ router = APIRouter()
 SUPPORTED_TYPES = {
     "w2-form",
     "5498",
+    "1095-a",
     "ssa-1099",
     "1099-g",
     "1099-r",
@@ -102,7 +104,7 @@ async def w2_extract_endpoint(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
                 "Invalid 'type'. Supported values are: "
-                "w2-form, 5498, ssa-1099, 1099-g, 1099-r, consolidated-brokerage-statement."
+                "w2-form, 5498, 1095-a, ssa-1099, 1099-g, 1099-r, consolidated-brokerage-statement."
             ),
         )
     if not files:
@@ -136,6 +138,12 @@ async def w2_extract_endpoint(
                 )
             elif normalized_type == "5498":
                 extracted, usage = await extract_5498_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
+            elif normalized_type == "1095-a":
+                extracted, usage = await extract_1095_a_details(
                     file_bytes=file_bytes,
                     mime_type=mime_type,
                     model_name=extraction_model_name,
