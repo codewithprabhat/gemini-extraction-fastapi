@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 from app.schemas.consolidated_brokerage_statement_details import ConsolidatedBrokerageStatementDetails
 from app.schemas.form_1099_g_details import Form1099GDetails
+from app.schemas.form_1099_r_details import Form1099RDetails
 from app.schemas.form_5498_details import Form5498Details
 from app.schemas.form_ssa_1099_details import FormSSA1099Details
 from app.schemas.w2_details import W2Details
@@ -31,6 +32,7 @@ class ExtractedDocument(BaseModel):
         | Form5498Details
         | FormSSA1099Details
         | Form1099GDetails
+        | Form1099RDetails
         | ConsolidatedBrokerageStatementDetails
     ] = Field(default=None)
     error_message: Optional[str] = Field(default=None)

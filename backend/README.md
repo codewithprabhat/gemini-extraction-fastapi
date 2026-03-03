@@ -8,6 +8,7 @@ FastAPI service for extracting structured W-2 data from uploaded files using Gem
   - `5498`
   - `ssa-1099`
   - `1099-g`
+  - `1099-r`
   - `consolidated-brokerage-statement`
 - `files` as multipart upload (single or multiple)
 - Allowed:
@@ -43,7 +44,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ## API
 ### POST `/documents/extract`
 `multipart/form-data`:
-- `type`: `w2-form` | `5498` | `ssa-1099` | `1099-g` | `consolidated-brokerage-statement`
+- `type`: `w2-form` | `5498` | `ssa-1099` | `1099-g` | `1099-r` | `consolidated-brokerage-statement`
 - `files`: one or many files
 
 Example:
