@@ -10,6 +10,7 @@ from app.schemas.form_1099_r_details import Form1099RDetails
 from app.schemas.form_1098_t_details import Form1098TDetails
 from app.schemas.form_5498_details import Form5498Details
 from app.schemas.form_ssa_1099_details import FormSSA1099Details
+from app.schemas.profitandloss_balancesheet_details import ProfitAndLossBalanceSheetDetails
 from app.schemas.w2_details import W2Details
 
 
@@ -40,6 +41,7 @@ class ExtractedDocument(BaseModel):
         | Form1099GDetails
         | Form1099RDetails
         | ConsolidatedBrokerageStatementDetails
+        | ProfitAndLossBalanceSheetDetails
     ] = Field(default=None)
     error_message: Optional[str] = Field(default=None)
     usage: UsageDetails = Field(default_factory=UsageDetails)

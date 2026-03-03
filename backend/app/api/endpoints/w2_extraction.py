@@ -12,6 +12,9 @@ from app.services.llm_extraction.form_1098_e_extractor import extract_1098_e_det
 from app.services.llm_extraction.form_1098_t_extractor import extract_1098_t_details
 from app.services.llm_extraction.form_5498_extractor import extract_5498_details
 from app.services.llm_extraction.form_ssa_1099_extractor import extract_ssa_1099_details
+from app.services.llm_extraction.profitandloss_balancesheet_extractor import (
+    extract_profitandloss_balancesheet_details,
+)
 from app.services.llm_extraction.w2_extractor import extract_w2_details
 from app.utils.file_validation import validate_uniform_family
 from app.utils.gemini_api_client import GeminiUsage
@@ -27,6 +30,7 @@ SUPPORTED_TYPES = {
     "1099-g",
     "1099-r",
     "consolidated-brokerage-statement",
+    "profitandloss-balancesheet",
 }
 
 
@@ -108,7 +112,8 @@ async def w2_extract_endpoint(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
                 "Invalid 'type'. Supported values are: "
-                "w2-form, 5498, 1095-a, 1098-e, 1098-t, ssa-1099, 1099-g, 1099-r, consolidated-brokerage-statement."
+                "w2-form, 5498, 1095-a, 1098-e, 1098-t, ssa-1099, 1099-g, 1099-r, consolidated-brokerage-statement, "
+                "profitandloss-balancesheet."
             ),
         )
     if not files:
@@ -178,6 +183,12 @@ async def w2_extract_endpoint(
                 )
             elif normalized_type == "consolidated-brokerage-statement":
                 extracted, usage = await extract_consolidated_brokerage_statement_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
+            elif normalized_type == "profitandloss-balancesheet":
+                extracted, usage = await extract_profitandloss_balancesheet_details(
                     file_bytes=file_bytes,
                     mime_type=mime_type,
                     model_name=extraction_model_name,
