@@ -40,7 +40,7 @@ function DocumentGrid({ documents, selectedDocumentName, onSelect }: DocumentGri
           mb: 2,
         }}
       >
-        W-2, 1099-SA, 5498-SA, 5498, and SSA-1099 are available now. More document types are coming soon as implementation is in progress.
+        The listed document types are currently supported for extraction and align with the backend processing service.
       </Typography>
 
       <Box

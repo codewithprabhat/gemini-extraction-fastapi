@@ -13,10 +13,17 @@ import { extractDocuments } from '../extractionApi';
 import { ExtractedPayload, QueuedFile } from '../types';
 
 const DOCUMENT_TYPE_TO_API_TYPE: Record<string, string> = {
-  w2: 'w2-form',
-  '1099-sa': '1099-sa',
-  '5498-sa': '5498-sa',
+  'w2-form': 'w2-form',
   '5498': '5498',
+  '1095-a': '1095-a',
+  'form-1098': 'form-1098',
+  '1098-t': '1098-t',
+  '1098-e': '1098-e',
+  '1099-g': '1099-g',
+  '1099-div': '1099-div',
+  '1099-r': '1099-r',
+  'consolidated-brokerage-statement': 'consolidated-brokerage-statement',
+  'profitandloss-balancesheet': 'profitandloss-balancesheet',
   'ssa-1099': 'ssa-1099',
 };
 const INPUT_COST_PER_MILLION_USD = 0.3;
@@ -107,7 +114,7 @@ function UploadExtractPage() {
       setResultJson(null);
       setFiles((previous) => previous.map((item) => ({ ...item, status: 'error' })));
       setErrorMessage(
-        `${selectedDocument.name} extraction is not supported yet. Please select W-2, 1099-SA, 5498-SA, or 5498.`
+        `${selectedDocument.name} extraction is not supported yet. Please select one of the currently supported document types.`
       );
       return;
     }
