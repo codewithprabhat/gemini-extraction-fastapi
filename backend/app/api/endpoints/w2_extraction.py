@@ -7,6 +7,7 @@ from app.services.llm_extraction.consolidated_brokerage_statement_extractor impo
 )
 from app.services.llm_extraction.form_1095_a_extractor import extract_1095_a_details
 from app.services.llm_extraction.form_1099_g_extractor import extract_1099_g_details
+from app.services.llm_extraction.form_1099_div_extractor import extract_1099_div_details
 from app.services.llm_extraction.form_1099_r_extractor import extract_1099_r_details
 from app.services.llm_extraction.form_1098_extractor import extract_1098_details
 from app.services.llm_extraction.form_1098_e_extractor import extract_1098_e_details
@@ -30,6 +31,7 @@ SUPPORTED_TYPES = {
     "1098-t",
     "ssa-1099",
     "1099-g",
+    "1099-div",
     "1099-r",
     "consolidated-brokerage-statement",
     "profitandloss-balancesheet",
@@ -114,7 +116,7 @@ async def w2_extract_endpoint(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=(
                 "Invalid 'type'. Supported values are: "
-                "w2-form, 5498, 1095-a, form-1098, 1098-e, 1098-t, ssa-1099, 1099-g, 1099-r, consolidated-brokerage-statement, "
+                "w2-form, 5498, 1095-a, form-1098, 1098-e, 1098-t, ssa-1099, 1099-g, 1099-div, 1099-r, consolidated-brokerage-statement, "
                 "profitandloss-balancesheet."
             ),
         )
@@ -179,6 +181,12 @@ async def w2_extract_endpoint(
                 )
             elif normalized_type == "1099-g":
                 extracted, usage = await extract_1099_g_details(
+                    file_bytes=file_bytes,
+                    mime_type=mime_type,
+                    model_name=extraction_model_name,
+                )
+            elif normalized_type == "1099-div":
+                extracted, usage = await extract_1099_div_details(
                     file_bytes=file_bytes,
                     mime_type=mime_type,
                     model_name=extraction_model_name,

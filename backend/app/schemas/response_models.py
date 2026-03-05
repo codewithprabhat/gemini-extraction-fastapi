@@ -7,6 +7,7 @@ from app.schemas.form_1095_a_details import Form1095ADetails
 from app.schemas.form_1098_details import Form1098Details
 from app.schemas.form_1098_e_details import Form1098EDetails
 from app.schemas.form_1099_g_details import Form1099GDetails
+from app.schemas.form_1099_div_details import Form1099DivDetails
 from app.schemas.form_1099_r_details import Form1099RDetails
 from app.schemas.form_1098_t_details import Form1098TDetails
 from app.schemas.form_5498_details import Form5498Details
@@ -41,6 +42,7 @@ class ExtractedDocument(BaseModel):
         | Form1098TDetails
         | FormSSA1099Details
         | Form1099GDetails
+        | Form1099DivDetails
         | Form1099RDetails
         | ConsolidatedBrokerageStatementDetails
         | ProfitAndLossBalanceSheetDetails
