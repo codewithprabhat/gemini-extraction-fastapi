@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 
 from app.schemas.consolidated_brokerage_statement_details import ConsolidatedBrokerageStatementDetails
 from app.schemas.form_1095_a_details import Form1095ADetails
+from app.schemas.form_1098_details import Form1098Details
 from app.schemas.form_1098_e_details import Form1098EDetails
 from app.schemas.form_1099_g_details import Form1099GDetails
 from app.schemas.form_1099_r_details import Form1099RDetails
@@ -35,6 +36,7 @@ class ExtractedDocument(BaseModel):
         W2Details
         | Form5498Details
         | Form1095ADetails
+        | Form1098Details
         | Form1098EDetails
         | Form1098TDetails
         | FormSSA1099Details
